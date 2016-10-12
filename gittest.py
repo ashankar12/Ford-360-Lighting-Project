@@ -37,6 +37,6 @@ print '\n'
 
 
 print 'Names merged in from different branch:'
-print 'Shankar Akshay'
+print ''
 print ''
 print ''
