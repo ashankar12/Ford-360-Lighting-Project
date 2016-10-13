@@ -40,6 +40,9 @@
 #ifndef __DRIVERLIB_CAN_H__
 #define __DRIVERLIB_CAN_H__
 
+#include <stdint.h>
+#include <stdbool.h>
+
 //*****************************************************************************
 //
 //! \addtogroup can_api

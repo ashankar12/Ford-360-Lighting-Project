@@ -257,7 +257,8 @@ typedef enum {  ES_NO_EVENT = 0,
                 /* User-defined events start here */
                 ES_NEW_KEY, /* signals a new key received from terminal */
                 ES_LOCK,
-                ES_UNLOCK} ES_EventTyp_t ;
+                ES_UNLOCK,
+								ES_BUS_OFF} ES_EventTyp_t ;
 
 /****************************************************************************/
 // These are the definitions for the Distribution lists. Each definition

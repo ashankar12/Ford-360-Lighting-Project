@@ -88,15 +88,9 @@ bool Init_Master_Main_Service ( uint8_t Priority ) {
     // Initialize the MyPriority variable with the passed in parameter.
     MyPriority = Priority;
 
-//    // Initialize the port line to receive start button signals (Port A, bit 7)
-//    // Enable peripheral clock to Port A
-//    HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R0;
-//    while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R0) != SYSCTL_PRGPIO_R0)
-//        ; // (wait for port to be ready)
-//    // Enable bit 7 on Port A as digital I/O line
-//    HWREG(GPIO_PORTA_BASE+GPIO_O_DEN) |= BIT7HI;
-//    // Set data direction for bit 7 on Port A to be an input
-//    HWREG(GPIO_PORTA_BASE+GPIO_O_DIR) &= BIT7LO;
+		
+	//	HWREG(GPIO_PORTB_BASE+GPIO_O_DEN) |= (BIT4HI | BIT5HI);
+	//	HWREG(GPIO_PORTE_BASE+GPIO_O_DIR) &= (BIT4LO & BIT5LO);
 
 //    // Sample the button port pin (bit 7) and use it to initialize LastButtonState
 //    LastButtonState = HWREG(GPIO_PORTA_BASE + (GPIO_O_DATA + ALL_BITS)) & BIT7HI;
@@ -109,6 +103,16 @@ bool Init_Master_Main_Service ( uint8_t Priority ) {
 		// Initialize CAN bus
 		Initialize_CAN_Internal_Bus(&My_Node_ID, p_My_RX_Data, p_My_Remote_Data);
 
+	  // Initialize the port line to receive start button signals (Port A, bit 7)
+    // Enable peripheral clock to Port A
+    HWREG(SYSCTL_RCGCGPIO) |= SYSCTL_RCGCGPIO_R1;
+    while ((HWREG(SYSCTL_PRGPIO) & SYSCTL_PRGPIO_R1) != SYSCTL_PRGPIO_R1)
+        ; // (wait for port to be ready)
+    // Enable bit 7 on Port A as digital I/O line
+    HWREG(GPIO_PORTB_BASE+GPIO_O_AFSEL) |= (BIT4HI | BIT5HI);
+    // Set data direction for bit 7 on Port A to be an input
+    HWREG(GPIO_PORTB_BASE+GPIO_O_PCTL) = (HWREG(GPIO_PORTB_BASE+GPIO_O_PCTL) & (0xff00ffff)) + (8<<16) + (8<<20);
+		
     // Start debounce timer (timer posts to ButtonDebounceSM)
     ES_Timer_InitTimer(MASTER_NODE_TIMER, 1000);
 
@@ -148,11 +152,16 @@ ES_Event Run_Master_Main_Service( ES_Event ThisEvent ) {
 	
 		if (ThisEvent.EventType == ES_TIMEOUT)
 		{
-			printf("\r\nMaster Sending Data: %d", My_Remote_Data[0]);
+				printf("\r\nMaster Sending Data: %d", My_Current_Command[0]);
 			CAN_Master_Command_Slave(0x02, p_My_Current_Command);
 			ES_Timer_InitTimer(MASTER_NODE_TIMER, 1000);
 		}
-
+		
+		else if (ThisEvent.EventType == ES_BUS_OFF)
+		{
+			printf("\r\nBus Turned Off");
+		}
+		
     return ReturnEvent;
 }
 

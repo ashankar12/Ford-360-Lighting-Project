@@ -45,7 +45,11 @@
 #include "driverlib/sysctl.h"
 #include "driverlib/pin_map.h"  // Define PART_TM4C123GH6PM in project
 #include "driverlib/gpio.h"
+#include "ES_Configure.h"
+#include "ES_Framework.h"
+#include "inc/hw_nvic.h"
 
+#include "Master_Main_Service.h"
 #include "MS_CAN_top_layer.h"
 #include "driverlib/can.h"
 
@@ -89,7 +93,7 @@
 static uint32_t * p_My_Node_ID;         // This node's ID
 static uint8_t * p_My_RX_Data;          // This node's data store for incoming data
 static uint8_t * p_My_Remote_Data;      // This node's data store for incoming data that was requested (master), or data that we will send on request (slave)
-
+static uint8_t counter = 0;
 // ######################################################################################################################################################################
 // ---------------------------- Private Function Prototypes
 // ######################################################################################################################################################################
@@ -150,32 +154,41 @@ void Initialize_CAN_Internal_Bus(uint32_t * p_this_node_id, uint8_t * p_rx_data,
      // 3. Enable the CAN controller
      CANEnable(CAN_INTERNAL_BUS_BASE);
      
-     // 5. Set up the CAN retry behavior to automatic
-     CANRetrySet(CAN_INTERNAL_BUS_BASE, true);
+     // 4. Set up the CAN retry behavior to automatic
+     CANRetrySet(CAN_INTERNAL_BUS_BASE, false);
 
      // X. Register the ISR for the CAN bus, we could do this manually BTW, probably the better idea...
-     // CANIntRegister(CAN_INTERNAL_BUS_BASE, ***NEED FUNCTION POINTER***);
+//		 void (*canISRPointer)(void);
+//		 canISRPointer = &CAN_Internal_Bus_ISR;
+//     CANIntRegister(CAN_INTERNAL_BUS_BASE, canISRPointer);
+		 
+		 HWREG(NVIC_EN1) |= BIT7HI;
+		 __enable_irq();
 
      // 5. Enable CAN Interrupts
-     CANIntEnable(CAN_INTERNAL_BUS_BASE, CAN_INT_MASTER);
+     CANIntEnable(CAN_INTERNAL_BUS_BASE, CAN_INT_MASTER|CAN_INT_ERROR);
+		 
+//     // X. Save our node's ID pointer into this module for future use
+//     p_My_Node_ID = p_this_node_id;
 
-     // X. Save our node's ID pointer into this module for future use
-     p_My_Node_ID = p_this_node_id;
+//     // X. Save pointers to this node's data stores
+//     p_My_RX_Data = p_rx_data;
+//     p_My_Remote_Data = p_remote_data;
 
-     // X. Save pointers to this node's data stores
-     p_My_RX_Data = p_rx_data;
-     p_My_Remote_Data = p_remote_data;
-
-     // X. Based on our node type, we set up appropriate message objects here
-     if (MASTER_NODE_ID == *p_My_Node_ID)
-     {
-          can_master_receive_slave();
-     }
-     else
-     {
-          can_slave_respond_master();
-          can_slave_receive_master();
-     }
+//     // X. Based on our node type, we set up appropriate message objects here
+//     if (MASTER_NODE_ID == *p_My_Node_ID)
+//     {
+//          can_master_receive_slave();
+//     }
+//     else
+//     {
+//          can_slave_respond_master();
+//          can_slave_receive_master();
+//     }
+		
+//		 ES_Event ErrorEvent;
+//			ErrorEvent.EventType = ES_BUS_OFF;
+//			Post_Master_Main_Service(ErrorEvent);
 }
 
 /****************************************************************************
@@ -199,7 +212,7 @@ void CAN_Master_Command_Slave(uint32_t slave_id, uint8_t * p_cmd_data)
      // Definitions
      //
      #define NUM_DATA_BYTES_MASTER_COMMAND_SLAVE 2                         // Number of bytes in data we are sending
-
+		if (counter > 2 ) printf("\r\nCounter is %i",counter);
      //
      // Configure message (follows from page 85 of peripheral manual)
      //
@@ -213,12 +226,13 @@ void CAN_Master_Command_Slave(uint32_t slave_id, uint8_t * p_cmd_data)
      //
      // Message Object ID: find lowest object available for transmit, we use the highest 2 registers for the RX data
      //
-     uint32_t object_id = find_avail_tx_object(CAN_INTERNAL_BUS_BASE);
+     uint32_t object_id = 1; //find_avail_tx_object(CAN_INTERNAL_BUS_BASE);
 
      //
      // Set up message object for transmitting commmands to slaves
      //
      CANMessageSet(CAN_INTERNAL_BUS_BASE, object_id, &message_object, (tMsgObjType) MSG_OBJ_TYPE_TX);
+		 
 }
 
 /****************************************************************************
@@ -320,6 +334,11 @@ void CAN_Slave_Send_Master(uint8_t * p_slave_data)
 ****************************************************************************/
 void CAN_Internal_Bus_ISR(void)
 {
+			ES_Event ErrorEvent;
+			ErrorEvent.EventType = ES_BUS_OFF;
+			Post_Master_Main_Service(ErrorEvent);
+	
+		counter++;
      //
      // See the cause of the pending interrupts
      //
@@ -331,6 +350,12 @@ void CAN_Internal_Bus_ISR(void)
           // Handle the status accordingly. For now get the status interrupt, in order to clear the int, save it, then do nothing.
           //
           uint32_t controller_status = CANStatusGet(CAN_INTERNAL_BUS_BASE, (tCANStsReg) CAN_STS_CONTROL);
+					if (CAN_STATUS_BUS_OFF == controller_status)
+					{
+						ES_Event ErrorEvent;
+						ErrorEvent.EventType = ES_BUS_OFF;
+						Post_Master_Main_Service(ErrorEvent);
+					}
      }
      // Else if the interrupt is from a specific message object
      else if ((0 < int_source) && (32 >= int_source))

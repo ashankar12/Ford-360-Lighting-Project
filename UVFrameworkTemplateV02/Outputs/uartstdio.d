@@ -1,7 +1,7 @@
 .\outputs\uartstdio.o: Source\uartstdio.c
-.\outputs\uartstdio.o: D:\Additional Programs\ARM\ARMCC\Bin\..\include\stdbool.h
-.\outputs\uartstdio.o: D:\Additional Programs\ARM\ARMCC\Bin\..\include\stdint.h
-.\outputs\uartstdio.o: D:\Additional Programs\ARM\ARMCC\Bin\..\include\stdarg.h
+.\outputs\uartstdio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdbool.h
+.\outputs\uartstdio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdint.h
+.\outputs\uartstdio.o: C:\Keil_v5\ARM\ARMCC\Bin\..\include\stdarg.h
 .\outputs\uartstdio.o: .\TIVA Code\inc/hw_ints.h
 .\outputs\uartstdio.o: .\TIVA Code\inc/hw_memmap.h
 .\outputs\uartstdio.o: .\TIVA Code\inc/hw_types.h
