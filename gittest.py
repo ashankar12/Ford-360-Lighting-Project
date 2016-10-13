@@ -33,7 +33,7 @@ To do : Below you see two blocks of print statements. In the first block add you
 print 'Names added to same branch:'
 print 'Akshay Shankar'
 print ''
-print 'Jordan Miller'
+print '\n'
 
 
 print 'Names merged in from different branch:'
