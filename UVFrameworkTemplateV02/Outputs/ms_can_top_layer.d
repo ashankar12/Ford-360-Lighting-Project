@@ -1,0 +1,12 @@
+.\outputs\ms_can_top_layer.o: Source\MS_CAN_top_layer.c
+.\outputs\ms_can_top_layer.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\outputs\ms_can_top_layer.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdbool.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_gpio.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_sysctl.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/sysctl.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/pin_map.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/gpio.h
+.\outputs\ms_can_top_layer.o: .\Headers\MS_CAN_top_layer.h
+.\outputs\ms_can_top_layer.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h

@@ -1,0 +1,12 @@
+.\outputs\can.o: Source\can.c
+.\outputs\can.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdbool.h
+.\outputs\can.o: C:\Keil_v5\ARM\ARMCC\bin\..\include\stdint.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_can.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_ints.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_nvic.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_memmap.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_sysctl.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\inc/hw_types.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/debug.h
+.\outputs\can.o: C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/interrupt.h
