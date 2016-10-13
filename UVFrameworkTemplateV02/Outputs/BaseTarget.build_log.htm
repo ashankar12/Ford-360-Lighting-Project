@@ -2,92 +2,43 @@
 <body>
 <pre>
 <h1>µVision Build Log</h1>
+<h2>Tool Versions:</h2>
+IDE-Version: µVision V5.21.1.0
+Copyright (C) 2016 ARM Ltd and ARM Germany GmbH. All rights reserved.
+License Information: Akshay Shankar, stanford, LIC=----
+ 
+Tool Versions:
+Toolchain:       MDK-Lite  Version: 5.21a
+Toolchain Path:  D:\Additional Programs\ARM\ARMCC\Bin
+C Compiler:      Armcc.exe V5.06 update 3 (build 300)
+Assembler:       Armasm.exe V5.06 update 3 (build 300)
+Linker/Locator:  ArmLink.exe V5.06 update 3 (build 300)
+Library Manager: ArmAr.exe V5.06 update 3 (build 300)
+Hex Converter:   FromElf.exe V5.06 update 3 (build 300)
+CPU DLL:         SARMCM3.DLL V5.21a
+Dialog DLL:      DCM.DLL V1.13.8.0
+Target DLL:      lmidk-agdi.dll V???
+Dialog DLL:      TCM.DLL V1.14.14.0
+ 
 <h2>Project:</h2>
-U:\roshenam\My Documents\harambes_stuff\UVFrameworkTemplateV02\UVFrameworkTemplate.uvprojx
-Project File Date:  10/05/2016
+C:\Users\Akshay Shankar\Documents\GitHub\Ford-360-Lighting-Project\UVFrameworkTemplateV02\UVFrameworkTemplate.uvprojx
+Project File Date:  10/11/2016
 
 <h2>Output:</h2>
+*** Using Compiler 'V5.06 update 3 (build 300)', folder: 'D:\Additional Programs\ARM\ARMCC\Bin'
 Build target 'BaseFrameworkTarget'
-compiling MS_CAN_top_layer.c...
-compiling MS_CAN_top_layer.c...
-compiling uartstdio.c...
+compiling Master_Main_Service.c...
 linking...
-.\Outputs\BaseTarget.axf: Warning: L6304W: Duplicate input file .\outputs\ms_can_top_layer.o ignored.
-Program Size: Code=5524 RO-data=1016 RW-data=48 ZI-data=2216  
-Finished: 0 information, 1 warning and 0 error messages.
+Program Size: Code=5864 RO-data=740 RW-data=80 ZI-data=2200  
 After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 1 Warning(s).
+".\Outputs\BaseTarget.axf" - 0 Error(s), 0 Warning(s).
+
+<h2>Collection of Component include folders:</h2>
+  C:\Users\Akshay Shankar\Documents\GitHub\Ford-360-Lighting-Project\UVFrameworkTemplateV02\RTE
+  D:\Additional Programs\ARM\PACK\Keil\TM4C_DFP\1.1.0\Device\Include\TM4C123
+
+<h2>Collection of Component Files used:</h2>
+Build Time Elapsed:  00:00:00
 </pre>
 </body>
 </html>
- Code=5524 RO-data=1016 RW-data=48 ZI-data=2216  
-Finished: 0 information, 1 warning and 0 error messages.
-After Build - User command #1: fromelf --bin --output .\Outputs\BaseTarget.bin .\Outputs\BaseTarget.axf
-".\Outputs\BaseTarget.axf" - 0 Error(s), 3 Warning(s).
-L6200E: Symbol CANErrCntrGet multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANInit multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntClear multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntDisable multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntEnable multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntRegister multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntStatus multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANIntUnregister multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANMessageClear multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANMessageGet multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANMessageSet multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANRetryGet multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANRetrySet multiply defined (by can.o and ms_can_top_layer.o).
-.\Outputs\BaseTarget.axf: Error: L6200E: Symbol CANStatusGet multiply defined (by can.o and ms_can_top_layer.o).
-Not enough information to list image symbols.
-Not enough information to list the image map.
-Finished: 2 information, 1 warning and 19 error messages.
-".\Outputs\BaseTarget.axf" - 19 Error(s), 1 Warning(s).
-Target not created
-BitClkParms *pClkParms)
-Source\can.c(836): error:  #136: struct "<unnamed>" has no field "ulPhase2Seg"
-      ulBitReg = (((pClkParms->ulPhase2Seg - 1) << CAN_BIT_TSEG2_S) &
-Source\can.c(838): error:  #136: struct "<unnamed>" has no field "ulSyncPropPhase1Seg"
-      ulBitReg |= (((pClkParms->ulSyncPropPhase1Seg - 1) << CAN_BIT_TSEG1_S) &
-Source\can.c(840): error:  #136: struct "<unnamed>" has no field "ulSJW"
-      ulBitReg |= ((pClkParms->ulSJW - 1) << CAN_BIT_SJW_S) & CAN_BIT_SJW_M;
-Source\can.c(841): error:  #136: struct "<unnamed>" has no field "ulQuantumPrescaler"
-      ulBitReg |= (pClkParms->ulQuantumPrescaler - 1) & CAN_BIT_BRP_M;
-Source\can.c(847): error:  #136: struct "<unnamed>" has no field "ulQuantumPrescaler"
-                  ((pClkParms->ulQuantumPrescaler - 1) >> 6) & CAN_BRPE_BRPE_M);
-Source\can.c(887): error:  #147-D: declaration is incompatible with "void CANIntRegister(uint32_t, void (*)(void))" (declared at line 429 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntRegister(unsigned long ulBase, void (*pfnHandler)(void))
-Source\can.c(923): error:  #147-D: declaration is incompatible with "void CANIntUnregister(uint32_t)" (declared at line 431 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntUnregister(unsigned long ulBase)
-Source\can.c(974): error:  #147-D: declaration is incompatible with "void CANIntEnable(uint32_t, uint32_t)" (declared at line 428 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntEnable(unsigned long ulBase, unsigned long ulIntFlags)
-Source\can.c(1004): error:  #147-D: declaration is incompatible with "void CANIntDisable(uint32_t, uint32_t)" (declared at line 427 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntDisable(unsigned long ulBase, unsigned long ulIntFlags)
-Source\can.c(1054): error:  #147-D: declaration is incompatible with "uint32_t CANIntStatus(uint32_t, tCANIntStsReg)" (declared at line 430 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntStatus(unsigned long ulBase, tCANIntStsReg eIntStsReg)
-Source\can.c(1137): error:  #147-D: declaration is incompatible with "void CANIntClear(uint32_t, uint32_t)" (declared at line 426 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANIntClear(unsigned long ulBase, unsigned long ulIntClr)
-Source\can.c(1192): error:  #20: identifier "tBoolean" is undefined
-  CANRetrySet(unsigned long ulBase, tBoolean bAutoRetry)
-Source\can.c(1192): error:  #147-D: declaration is incompatible with "void CANRetrySet(uint32_t, _Bool)" (declared at line 438 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANRetrySet(unsigned long ulBase, tBoolean bAutoRetry)
-Source\can.c(1235): error:  #20: identifier "tBoolean" is undefined
-  tBoolean
-Source\can.c(1236): error:  #147-D: declaration is incompatible with "_Bool CANRetryGet(uint32_t)" (declared at line 437 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANRetryGet(unsigned long ulBase)
-Source\can.c(1316): error:  #147-D: declaration is incompatible with "uint32_t CANStatusGet(uint32_t, tCANStsReg)" (declared at line 439 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANStatusGet(unsigned long ulBase, tCANStsReg eStatusReg)
-Source\can.c(1396): error:  #20: identifier "tBoolean" is undefined
-  tBoolean
-Source\can.c(1397): error:  #147-D: declaration is incompatible with "_Bool CANErrCntrGet(uint32_t, uint32_t *, uint32_t *)" (declared at line 423 of "C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib/can.h")
-  CANErrCntrGet(unsigned long ulBase, unsigned long *pulRxCount,
-Source\can.c: 0 warnings, 30 errors
-compiling MS_CAN_top_layer.c...
-Source\MS_CAN_top_layer.c(40): warning:  #1-D: last line of file ends without a newline
-  CANInit(test);
-Source\MS_CAN_top_layer.c(40): error:  #260-D: explicit type is missing ("int" assumed)
-  CANInit(test);
-Source\MS_CAN_top_layer.c(40): error:  #92: identifier-list parameters may only be used in a function definition
-  CANInit(test);
-Source\MS_CAN_top_layer.c: 1 warning, 2 errors
-".\Outputs\BaseTarget.axf" - 34 Error(s), 2 Warning(s).
-Target not created

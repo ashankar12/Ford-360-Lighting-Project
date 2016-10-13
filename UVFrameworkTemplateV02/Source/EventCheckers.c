@@ -38,51 +38,13 @@
 // actual functionsdefinition
 #include "EventCheckers.h"
 
+#include "ES_Framework.h"
+#include "ES_DeferRecall.h"
+#include "ES_ShortTimer.h"
+#include "ES_Types.h"     /* gets bool type for returns */
 
-// This is the event checking function sample. It is not intended to be 
-// included in the module. It is only here as a sample to guide you in writing
-// your own event checkers
-#if 0
-/****************************************************************************
- Function
-   Check4Lock
- Parameters
-   None
- Returns
-   bool: true if a new event was detected
- Description
-   Sample event checker grabbed from the simple lock state machine example
- Notes
-   will not compile, sample only
- Author
-   J. Edward Carryer, 08/06/13, 13:48
-****************************************************************************/
-bool Check4Lock(void)
-{
-  static uint8_t LastPinState = 0;
-  uint8_t CurrentPinState;
-  bool ReturnVal = false;
-  
-  CurrentPinState =  LOCK_PIN;
-  // check for pin high AND different from last time
-  // do the check for difference first so that you don't bother with a test
-  // of a port/variable that is not going to matter, since it hasn't changed
-  if ( (CurrentPinState != LastPinState) &&
-       (CurrentPinState == LOCK_PIN_HI) )
-  {                     // event detected, so post detected event
-    ES_Event ThisEvent;
-    ThisEvent.EventType = ES_LOCK;
-    ThisEvent.EventParam = 1;
-    // this could be any of the service post function, ES_PostListx or 
-    // ES_PostAll functions
-    ES_PostList01(ThisEvent); 
-    ReturnVal = true;
-  }
-  LastPinState = CurrentPinState; // update the state for next time
-
-  return ReturnVal;
-}
-#endif
+#define BRAKE_BIT BIT0HI
+#define PAIR_BIT BIT1HI
 
 /****************************************************************************
  Function
@@ -104,21 +66,187 @@ bool Check4Lock(void)
  Author
    J. Edward Carryer, 08/06/13, 13:48
 ****************************************************************************/
-bool Check4Keystroke(void)
-{
-  if ( IsNewKeyReady() ) // new key waiting?
-  {
-    ES_Event ThisEvent;
-    ThisEvent.EventType = ES_NEW_KEY;
-    ThisEvent.EventParam = GetNewKey();
-    // test distribution list functionality by sending the 'L' key out via
-    // a distribution list.
-    if ( ThisEvent.EventParam == 'L'){
-      ES_PostList00( ThisEvent );
-    }else{   // otherwise post to Service 0 for processing
-      PostTestHarnessService0( ThisEvent );
-    }
-    return true;
-  }
+bool Check4Keystroke(void) {
+    
+//  if ( IsNewKeyReady() ) // new key waiting?
+//  {
+//        
+//    ES_Event ThisEvent;
+//    ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//    
+//        switch(GetNewKey()) {
+//            
+//            case 'y':
+//                ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//                ThisEvent.EventParam = 0x00;
+//                PostPACTransmit( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_BEGIN_TRANSMIT: REQ_PAIR event.");
+//            break;
+//            
+//            case 'e':
+//                ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//                ThisEvent.EventParam = 0x01;
+//                PostPACTransmit( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_BEGIN_TRANSMIT: ENCR_KEY event.");
+//            break;
+//            
+//            case 'c':
+//                ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//                ThisEvent.EventParam = 0x02;
+//                PostPACTransmit( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_BEGIN_TRANSMIT: CTRL event.");
+//            break;
+//            
+//            case 't':
+//                ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//                ThisEvent.EventParam = 0x03;
+//                PostPACTransmit( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_BEGIN_TRANSMIT: STATUS event.");
+//            break;
+//            
+//            case 'z':
+//                ThisEvent.EventType = ES_BEGIN_TRANSMIT;
+//                ThisEvent.EventParam = 0x04;
+//                PostPACTransmit( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_BEGIN_TRANSMIT: RESEND event.");
+//            break;
+//            
+//            case 'p':
+//                ThisEvent.EventType = ES_USER_PAIR_PRESS;
+//                ThisEvent.EventParam = 0x00; // Param doesn't matter    
+//                PostPACService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_USER_PAIR_REQUEST event.");
+//            break;
+//            
+//            case 'l':
+//                ThisEvent.EventType = ES_STATUS_RECEIVED;
+//                ThisEvent.EventParam = (BIT0HI); // Paired
+//                PostPACService( ThisEvent );
+//            printf("\r\n\n\n\n\n\nSent ES_STATUS_RECEIVED: Paired event.");
+//            break;
+//            
+//            case '0':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x00; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x00 event.");
+//            break;
+//            
+//            case '1':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x01; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x01 event.");
+//            break;
+//            
+//            case '2':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x02; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x02 event.");
+//            break;
+//            
+//            case '3':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x03; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x03 event.");
+//            break;
+//            
+//            case '4':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x04; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x04 event.");
+//            break;
+//            
+//            case '5':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x05; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x05 event.");
+//            break;
+//            
+//            case '6':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x06; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x06 event.");
+//            break;
+//            
+//            case 'w':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x01; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x01 event.");
+//            break;
+//            
+//            case 'a':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x03; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x03 event.");
+//            break;
+//            
+//            case 's':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x02; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x02 event.");
+//            break;
+//            
+//            case 'd':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x04; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x04 event.");
+//            break;
+//            
+//            case 'f':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x00; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x00 event.");
+//            break;
+//            
+//            case 'g':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x06; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x06 event.");
+//            break;
+//            
+//            case 'r':
+//                ThisEvent.EventType = ES_TEST;
+//                ThisEvent.EventParam = 0x05; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_TEST: 0x05 event.");
+//            break;
+//            
+//            case ' ':
+//                ThisEvent.EventType = ES_SPACEBAR;
+//                ThisEvent.EventParam = 0x00; // Doesn't matter
+//                PostUIService( ThisEvent );
+//                //printf("\r\n\n\n\n\n\nSent ES_SPACEBAR event.");
+//            break;
+//            
+//            case 'b':
+//                ThisEvent.EventType = ES_SPECIAL_ACTION;
+//                ThisEvent.EventParam = BRAKE_BIT; // Doesn't matter
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_SPECIAL_ACTION: Brake event.");
+//            break;
+//            
+//            case 'u':
+//                ThisEvent.EventType = ES_SPECIAL_ACTION;
+//                ThisEvent.EventParam = PAIR_BIT; // Unpaired
+//                PostUIService( ThisEvent );
+//                printf("\r\n\n\n\n\n\nSent ES_SPECIAL_ACTION: Unpair event.");
+//            break;
+//            
+//        }
+//        
+//    return true;
+//  }
   return false;
 }

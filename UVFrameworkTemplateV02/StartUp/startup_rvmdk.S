@@ -81,6 +81,7 @@ __heap_limit
         EXTERN  SysTickIntHandler
         EXTERN  ShortTimerAHandler
         EXTERN  ShortTimerBHandler
+		EXTERN	CAN_Internal_Bus_ISR
 ;        EXTERN  UARTStdioIntHandler
 
 ;******************************************************************************
@@ -145,7 +146,7 @@ __Vectors
         DCD     IntDefaultHandler           ; Timer 3 subtimer B
         DCD     IntDefaultHandler           ; I2C1 Master and Slave
         DCD     IntDefaultHandler           ; Quadrature Encoder 1
-        DCD     IntDefaultHandler           ; CAN0
+        DCD     CAN_Internal_Bus_ISR        ; CAN0
         DCD     IntDefaultHandler           ; CAN1
         DCD     0                           ; Reserved
         DCD     0                           ; Reserved

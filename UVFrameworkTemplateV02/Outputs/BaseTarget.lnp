@@ -5,9 +5,9 @@
 ".\outputs\templatefsm.o"
 ".\outputs\es_shorttimer.o"
 ".\outputs\ms_can_top_layer.o"
-"C:\ti\TivaWare_C_Series-2.1.0.12573\driverlib\rvmdk\driverlib.lib"
+".\outputs\master_main_service.o"
+".\TIVA Code\driverlib\rvmdk\driverlib.lib"
 ".\outputs\startup_rvmdk.o"
-".\outputs\ms_can_top_layer.o"
 ".\outputs\es_checkevents.o"
 ".\outputs\es_deferrecall.o"
 ".\outputs\es_framework.o"
@@ -20,7 +20,6 @@
 ".\outputs\termio.o"
 ".\outputs\uartstdio.o"
 --strict --scatter ".\Outputs\BaseTarget.sct"
-
 --entry Reset_Handler --summary_stderr --info summarysizes --map --xref --callgraph --symbols
 --info sizes --info totals --info unused --info veneers
 --list ".\Outputs\BaseTarget.map" -o .\Outputs\BaseTarget.axf
